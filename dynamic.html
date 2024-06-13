@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Динамический контент</title>
+</head>
+<body>
+    <h1>Динамический контент</h1>
+    <button id="add-element">Добавить элемент</button>
+    <div id="content-area"></div>
+    <nav>
+        <a href="index.html">Главная</a>
+    </nav>
+    <script>
+        document.getElementById('add-element').addEventListener('click', function() {
+            var newElement = document.createElement('p');
+            newElement.textContent = 'Новый элемент';
+            document.getElementById('content-area').appendChild(newElement);
+        });
+    </script>
+</body>
+</html>
