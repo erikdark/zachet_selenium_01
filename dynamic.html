@@ -17,6 +17,7 @@
             var newElement = document.createElement('p');
             newElement.textContent = 'Новый элемент';
             document.getElementById('content-area').appendChild(newElement);
+            document.getElementById('content-area').appendChild(document.createTextNode('Элемент добавлен'));
         });
     </script>
 </body>
