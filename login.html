@@ -14,8 +14,15 @@
         <input type="password" id="password" name="password" required><br><br>
         <button type="submit">Войти</button>
     </form>
+    <p id="login-message"></p>
     <nav>
         <a href="index.html">Главная</a>
     </nav>
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            document.getElementById('login-message').textContent = 'Пользователь вошел в систему';
+        });
+    </script>
 </body>
 </html>
