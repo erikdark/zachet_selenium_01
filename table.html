@@ -13,7 +13,7 @@
 </head>
 <body>
     <h1>Таблица данных</h1>
-    <table>
+    <table id="data-table">
         <thead>
             <tr>
                 <th onclick="sortTable(0)">Имя</th>
@@ -32,42 +32,30 @@
         <a href="index.html">Главная</a>
     </nav>
     <script>
-        function sortTable(n) {
-            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-            table = document.querySelector("table");
-            switching = true;
-            dir = "asc";
-            while (switching) {
-                switching = false;
-                rows = table.rows;
-                for (i = 1; i < (rows.length - 1); i++) {
-                    shouldSwitch = false;
-                    x = rows[i].getElementsByTagName("TD")[n];
-                    y = rows[i + 1].getElementsByTagName("TD")[n];
-                    if (dir == "asc") {
-                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                            shouldSwitch = true;
-                            break;
-                        }
-                    } else if (dir == "desc") {
-                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-                            shouldSwitch = true;
-                            break;
-                        }
-                    }
+        function sortTable(columnIndex) {
+            var table = document.getElementById("data-table");
+            var rows = Array.from(table.rows).slice(1); // исключаем заголовок
+            var direction = table.getAttribute("data-sort-direction") || "asc";
+            var newDirection = direction === "asc" ? "desc" : "asc";
+            table.setAttribute("data-sort-direction", newDirection);
+
+            rows.sort(function(a, b) {
+                var cellA = a.cells[columnIndex].innerText.toLowerCase();
+                var cellB = b.cells[columnIndex].innerText.toLowerCase();
+                if (cellA < cellB) {
+                    return newDirection === "asc" ? -1 : 1;
                 }
-                if (shouldSwitch) {
-                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                    switching = true;
-                    switchcount++;
-                } else {
-                    if (switchcount == 0 && dir == "asc") {
-                        dir = "desc";
-                        switching = true;
-                    }
+                if (cellA > cellB) {
+                    return newDirection === "asc" ? 1 : -1;
                 }
-            }
-            document.getElementById('sort-message').textContent = 'Таблица отсортирована';
+                return 0;
+            });
+
+            rows.forEach(function(row) {
+                table.tBodies[0].appendChild(row);
+            });
+
+            document.getElementById('sort-message').textContent = 'Таблица отсортирована по столбцу ' + (columnIndex + 1);
         }
     </script>
 </body>
